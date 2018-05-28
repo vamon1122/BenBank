@@ -76,7 +76,7 @@ namespace CSVImportLib
             }
             else
             {
-                DefaultLog.Info(String.Format("File extension is \"{0}\"! File extension MUST be \".csv\". Import can NOT be attempted!"));
+                DefaultLog.Info(String.Format("File extension is \"{0}\"! File extension MUST be \".csv\". Import can NOT be attempted!", MyFileExtension));
                 HasValidFileExtension = false;
                 return false;
             }
