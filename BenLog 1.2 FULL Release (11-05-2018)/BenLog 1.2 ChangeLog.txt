@@ -1,0 +1,11 @@
+﻿1.3 Ideas
+  - Add line concatinator
+
+1.2
+ - Added 'Debug mode'. If debug mode is off, debug messages will not be written to the log.
+ - Added LogItem class
+ - Added LogReader class. Reads log and converts records into into LogItem objects.
+ - Implemented 'DeleteLog' method
+ - Removed ShowVers as it was causing crashes (I think a stack overflow but no sure)
+ - Added LogFileDir & LogFileName properties.
+

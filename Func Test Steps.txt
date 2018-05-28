@@ -1,0 +1,6 @@
+Console.Write("Test 1 - Create new instance of class ");
+Console.Write("Test 2 - Insert into database ");
+Console.Write("Test 3 - Change properties ");
+Console.Write("Test 4 - Update database ");
+Console.Write("Test 5 - Create new instance of class with the same Id ");
+Console.Write("Test 6 - Select from database ");
