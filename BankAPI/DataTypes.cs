@@ -791,6 +791,16 @@ namespace BankAPI
             DefaultLog.Info("Successfully created new instance of 'Person' class" + MyInfo());
         }
 
+        public Person()
+        {
+            DefaultLog.Info("Starting create new instance of 'Person' class " + MyInfo());
+
+            _Id = Guid.NewGuid();
+            //BankAPI.AddPerson(this);
+
+            DefaultLog.Info("Successfully created new instance of 'Person' class" + MyInfo());
+        }
+
         public bool DbInsert()
         {
             DefaultLog.Info("Starting create person on database " + MyInfo());

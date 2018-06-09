@@ -46,6 +46,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BenCsv">
+      <HintPath>..\..\..\BenCsv\BenCsv\bin\Debug\BenCsv.dll</HintPath>
+    </Reference>
     <Reference Include="BenLog, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\BenLog 1.3 Pre Release\BenLog.dll</HintPath>
