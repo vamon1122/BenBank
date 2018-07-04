@@ -47,7 +47,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BenCsv">
-      <HintPath>..\..\..\BenCsv\BenCsv\bin\Debug\BenCsv.dll</HintPath>
+      <HintPath>..\BenCsv 1.0.1.6\BenCsv.dll</HintPath>
     </Reference>
     <Reference Include="BenLog, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -66,9 +66,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CSV.cs" />
+    <Compile Include="CsvManager.cs" />
     <Compile Include="DataManager.cs" />
-    <Compile Include="CSV Ref.cs" />
+    <Compile Include="DataStore.cs" />
     <Compile Include="DataTypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

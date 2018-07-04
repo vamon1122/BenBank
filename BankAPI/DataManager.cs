@@ -17,21 +17,7 @@ namespace BankAPI
 
         public static string ConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\benba\\Documents\\Visual Studio 2017\\Projects\\Bank\\BankAPI\\BankDB.mdf\";Integrated Security=True";
 
-        public static List<Account> Accounts { get {
-                List<Account> AllAccounts = new List<Account>();
-                foreach(PersonalAccount TempPersonalAccount in _PersonalAccounts)
-                {
-                    AllAccounts.Add(TempPersonalAccount);
-                }
-
-                foreach (BusinessAccount TempBusinessAccount in _BusinessAccounts)
-                {
-                    AllAccounts.Add(TempBusinessAccount);
-                }
-
-                return AllAccounts;
-            }
-        }
+        
 
         /// <summary>
         /// This is the original "LoadDb" method. It downloads the id's for everything in the database, then uses the
@@ -74,7 +60,7 @@ namespace BankAPI
                             string TempSurname = reader[3].ToString();
                             
                             Person TempPerson = new Person(TempId, TempForename, TempSurname, TempGovernmentId);
-                            AddPerson(TempPerson);
+                            DataStore.People.Add(TempPerson);
                         }
                     }
                     DefaultLog.Info("ALL People downloaded from database");
@@ -95,14 +81,14 @@ namespace BankAPI
 
 
                             CurrentAction = "getting ALL Governments from database - Getting President from BankAPI.People";
-                            int PresidentIndex = DataManager.People.FindIndex(f => f.Id.ToString() == TempPresidentId.ToString());
+                            int PresidentIndex = DataStore.People.FindIndex(f => f.Id.ToString() == TempPresidentId.ToString());
 
                             if (PresidentIndex >= 0)
                             {
                                 DefaultLog.Info("The Government's President has already been loaded from the database. " +
                                     "Using this instance of President.");
 
-                                TempPresident = DataManager.People[PresidentIndex];
+                                TempPresident = DataStore.People[PresidentIndex];
                             }
                             else
                             {
@@ -125,7 +111,7 @@ namespace BankAPI
                                 TempGovernment = new Government(TempId, TempName);
                             }
                             
-                            AddGovernment(TempGovernment);
+                            DataStore._Governments.Add(TempGovernment);
                         }
                     }
                     DefaultLog.Info("ALL Governments downloaded from database");
@@ -152,14 +138,14 @@ namespace BankAPI
 
 
                             CurrentAction = "getting ALL Businesses from database - Getting Business's Government from BankAPI.Governments";
-                            int GovernmentIndex = DataManager.Governments.FindIndex(f => f.Id.ToString() == TempGovernmentId.ToString());
+                            int GovernmentIndex = DataStore.Governments.FindIndex(f => f.Id.ToString() == TempGovernmentId.ToString());
 
                             if (GovernmentIndex >= 0)
                             {
                                 DefaultLog.Info("The Business's Government has already been loaded from the database. " +
                                     "Using this instance of Government.");
 
-                                TempGovernment = DataManager.Governments[GovernmentIndex];
+                                TempGovernment = DataStore.Governments[GovernmentIndex];
                             }
                             else
                             {
@@ -168,28 +154,28 @@ namespace BankAPI
                             }
 
                             CurrentAction = "getting ALL Businesses from database - Getting Business's owner from BusinessAPI.People";
-                            int BusinessOwnerIndex = DataManager.People.FindIndex(f => f.Id.ToString() == TempOwnerId.ToString());
+                            int BusinessOwnerIndex = DataStore.People.FindIndex(f => f.Id.ToString() == TempOwnerId.ToString());
 
                             if (BusinessOwnerIndex >= 0)
                             {
                                 DefaultLog.Info("The Business's owner has already been loaded from the database. " +
                                     "Using this instance of owner.");
 
-                                TempOwner = DataManager.People[BusinessOwnerIndex];
+                                TempOwner = DataStore.People[BusinessOwnerIndex];
                             }
                             else
                             {
                                 throw new Exception("The Business's owner has not already been loaded from the database. " +
                                     "All People *should* already have been loaded.");
                             }
-                            AddBusiness(new Business(TempId, TempGovernment, TempOwner, TempName));
+                            DataStore._Businesses.Add(new Business(TempId, TempGovernment, TempOwner, TempName));
                         }
                     }
                     DefaultLog.Info("Businesses downloaded (excluding banks which were already downloaded)");
 
 
                     DefaultLog.Debug("BUSINESS ID'S START");
-                    foreach(Business MyBusiness in Businesses)
+                    foreach(Business MyBusiness in DataStore.Businesses)
                     {
                         DefaultLog.Debug("BusinessId  = " + MyBusiness.Id);
                     }
@@ -209,14 +195,14 @@ namespace BankAPI
                             DefaultLog.Debug("Searching for business with Id = " + TempId);
 
                             CurrentAction = "getting ALL Banks from database - Getting Bank's Business from BankAPI.Businesses";
-                            int BusinessIndex = DataManager.Businesses.FindIndex(f => f.Id.ToString() == TempId.ToString());
+                            int BusinessIndex = DataStore.Businesses.FindIndex(f => f.Id.ToString() == TempId.ToString());
                             //DefaultLog.Debug("TempId = " + TempId);
                             if (BusinessIndex >= 0)
                             {
                                 DefaultLog.Info("The Bank's Business has already been loaded from the database. " +
                                     "Using this instance of Business.");
 
-                                TempMyBusiness = DataManager.Businesses[BusinessIndex];
+                                TempMyBusiness = DataStore.Businesses[BusinessIndex];
                             }
                             else
                             {
@@ -224,9 +210,9 @@ namespace BankAPI
                                 throw new Exception("The Bank's Business has not already been loaded from the database. " +
                                     "All Businesses *should* already have been loaded.");
                             }
-                            AddBank(new Bank(TempMyBusiness, TempSavingsInterestRate, TempLoanInterestRate));
+                            DataStore._Banks.Add(new Bank(TempMyBusiness, TempSavingsInterestRate, TempLoanInterestRate));
                             DefaultLog.Info("Removing Bank's Business from _Businesses");
-                            _Businesses.Remove(TempMyBusiness);
+                            DataStore._Businesses.Remove(TempMyBusiness);
                         }
                     }
                     DefaultLog.Info("ALL Banks downloaded from database");
@@ -240,7 +226,7 @@ namespace BankAPI
                     {
 
                         DefaultLog.Debug("ALL BANKS START");
-                        foreach(Bank MyBank in Banks)
+                        foreach(Bank MyBank in DataStore.Banks)
                         {
                             DefaultLog.Debug("Id = " + MyBank.Id);
                         }
@@ -271,7 +257,7 @@ namespace BankAPI
 
                             /////
                             CurrentAction = "getting ALL PersonalAccounts from database - Getting PersonalAccount's Bank from BankAPI.Banks";
-                            int BankIndex = DataManager.Banks.FindIndex(f => f.Id.ToString() == TempBankId.ToString());
+                            int BankIndex = DataStore.Banks.FindIndex(f => f.Id.ToString() == TempBankId.ToString());
                             /*Console.WriteLine(BankIndex);
                             //Console.WriteLine(BankAPI.Banks[BankIndex].Name);
                             Console.ReadLine();*/
@@ -281,7 +267,7 @@ namespace BankAPI
                                 DefaultLog.Info("The PersonalAccount's Bank has already been loaded from the database. " +
                                     "Using this instance of Bank.");
 
-                                TempBank = DataManager.Banks[BankIndex];
+                                TempBank = DataStore.Banks[BankIndex];
                             }
                             else
                             {
@@ -290,14 +276,14 @@ namespace BankAPI
                             }
 
                             CurrentAction = "getting ALL PersonalAccounts from database - Getting PersonalAccount's Owner from BankAPI.People";
-                            int BusinessOwnerIndex = DataManager.People.FindIndex(f => f.Id.ToString() == TempOwnerId.ToString());
+                            int BusinessOwnerIndex = DataStore.People.FindIndex(f => f.Id.ToString() == TempOwnerId.ToString());
 
                             if (BusinessOwnerIndex >= 0)
                             {
                                 DefaultLog.Info("The PersonalAccount's owner has already been loaded from the database. " +
                                     "Using this instance of owner.");
 
-                                TempOwner = DataManager.People[BusinessOwnerIndex];
+                                TempOwner = DataStore.People[BusinessOwnerIndex];
                             }
                             else
                             {
@@ -305,7 +291,7 @@ namespace BankAPI
                                     "All People *should* already have been loaded.");
                             }
                             //                                                            
-                            AddPersonalAccount(new PersonalAccount(TempPersonalAccountId, TempBank, TempOwner, TempBal,
+                            DataStore._PersonalAccounts.Add(new PersonalAccount(TempPersonalAccountId, TempBank, TempOwner, TempBal,
                                 TempIsActive));
                         } 
                     }
@@ -339,14 +325,14 @@ namespace BankAPI
 
                             /////
                             CurrentAction = "getting ALL BusinessAccounts from database - Getting BusinessAccount's Bank from BankAPI.Banks";
-                            int BankIndex = DataManager.Banks.FindIndex(f => f.Id.ToString() == TempBankId.ToString());
+                            int BankIndex = DataStore.Banks.FindIndex(f => f.Id.ToString() == TempBankId.ToString());
 
                             if (BankIndex >= 0)
                             {
                                 DefaultLog.Info("The BusinessAccount's Bank has already been loaded from the database. " +
                                     "Using this instance of Bank.");
 
-                                TempBank = DataManager.Banks[BankIndex];
+                                TempBank = DataStore.Banks[BankIndex];
                             }
                             else
                             {
@@ -355,14 +341,14 @@ namespace BankAPI
                             }
 
                             CurrentAction = "getting ALL BusinessAccounts from database - Getting BusinessAccount's Business from BankAPI.Businesses";
-                            int BusinessOwnerIndex = DataManager.Businesses.FindIndex(f => f.Id.ToString() == TempBusinessId.ToString());
+                            int BusinessOwnerIndex = DataStore.Businesses.FindIndex(f => f.Id.ToString() == TempBusinessId.ToString());
 
                             if (BusinessOwnerIndex >= 0)
                             {
                                 DefaultLog.Info("The BusinessAccount's Business has already been loaded from the database. " +
                                     "Using this instance of Business.");
 
-                                TempBusiness = DataManager.Businesses[BusinessOwnerIndex];
+                                TempBusiness = DataStore.Businesses[BusinessOwnerIndex];
                             }
                             else
                             {
@@ -370,7 +356,7 @@ namespace BankAPI
                                     "All Businesses *should* already have been loaded.");
                             }
                             //                                                            
-                            AddBusinessAccount(new BusinessAccount(TempBusinessAccountId, TempBank, TempBusiness, TempBal,
+                            DataStore._BusinessAccounts.Add(new BusinessAccount(TempBusinessAccountId, TempBank, TempBusiness, TempBal,
                                 TempIsActive));
                         }
                     }
@@ -386,72 +372,15 @@ namespace BankAPI
             DefaultLog.Info("All data loaded from database successfully!");
             DefaultLog.Info(String.Format("{0} personal accounts, {1} business accounts, " +
                 "{3} businesses of which {2} are banks, " +
-                "{4} people & {5} governments", PersonalAccounts.Count(), BusinessAccounts.Count(), Banks.Count(), 
-                Businesses.Count(), People.Count(), Governments.Count()));
+                "{4} people & {5} governments", DataStore.PersonalAccounts.Count(), DataStore.BusinessAccounts.Count(), DataStore.Banks.Count(), 
+                DataStore.Businesses.Count(), DataStore.People.Count(), DataStore.Governments.Count()));
             return true;
         }
 
-        public static List<PersonalAccount> PersonalAccounts { get { return _PersonalAccounts; } }
-        private static List<PersonalAccount> _PersonalAccounts = new List<PersonalAccount>();
-        public static void AddPersonalAccount(PersonalAccount pPersonalAccount)
+        public static bool UpdateDb()
         {
-            _PersonalAccounts.Add(pPersonalAccount);
+
         }
-
-        public static List<BusinessAccount> BusinessAccounts { get { return _BusinessAccounts; } }
-        private static List<BusinessAccount> _BusinessAccounts = new List<BusinessAccount>();
-        public static void AddBusinessAccount(BusinessAccount pBusinessAccount)
-        {
-            _BusinessAccounts.Add(pBusinessAccount);
-        }
-
-
-
-        public static List<Bank> Banks{ get { return _Banks; } }
-        private static List<Bank> _Banks = new List<Bank>();
-        public static void AddBank(Bank pBank)
-        {
-            _Banks.Add(pBank);
-        }
-
-        public static List<Business> Businesses { get
-            {
-                List<Business> TempAllBusinesses = new List<Business>();
-                foreach(Business TempBusiness in _Businesses)
-                {
-                    TempAllBusinesses.Add(TempBusiness);
-                }
-
-                foreach (Bank TempBank in _Banks)
-                {
-                    TempAllBusinesses.Add(TempBank);
-                }
-
-                return TempAllBusinesses;
-
-                //return _Businesses;
-            }
-        }
-        private static List<Business> _Businesses = new List<Business>();
-        public static void AddBusiness(Business pBusiness)
-        {
-            _Businesses.Add(pBusiness);
-        }
-
-        public static List<Person> People { get { return _People; } }
-        private static List<Person> _People = new List<Person>();
-        public static void AddPerson(Person pPerson)
-        {
-            _People.Add(pPerson);
-        }
-
-        public static List<Government> Governments { get { return _Governments; } }
-        private static List<Government> _Governments = new List<Government>();
-        public static void AddGovernment(Government pGovernment)
-        {
-            _Governments.Add(pGovernment);
-        }
-
     }
 
     

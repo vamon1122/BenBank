@@ -9,11 +9,14 @@ using BenCsv;
 
 namespace BankAPI
 {
-    class Csv
+    class CsvManager
     {
+
+        
+
         public bool CanReadFile(string pDir)
         {
-            if (CsvReader.CanReadFile(pDir))
+            if (Csv.CanReadFile(pDir))
             {
                 return true;
             }
@@ -25,9 +28,10 @@ namespace BankAPI
 
         List<Person> ReadPeople(string pDir)
         {
-            if (CsvReader.CanReadFile(pDir))
+            
+            if (Csv.CanReadFile(pDir))
             {
-                List<string[]> values = CsvReader.ReadFile(pDir);
+                List<string[]> values = Csv.ReadFile(pDir);
                 List<Person> MyPeople = new List<Person>();
 
                 string[] columnHeadings = values[0];
@@ -103,13 +107,24 @@ namespace BankAPI
                         }
                         
                     }
-                }
 
+                    Government MyGovernment = DataStore.Governments.Find(Government => Government.Id.ToString() == valGovId.ToString());
+
+                    if(MyGovernment == null)
+                    {
+                        throw new KeyNotFoundException("Could not find a government in DataStore.Governments which has an Id = " + valGovId);
+                    }
+                    else
+                    {
+                        MyPeople.Add(new Person(valFname, valSname, MyGovernment));
+                    }
+                }
+                return MyPeople;
 
             }
             else
             {
-                return new List<Person>();
+                throw new ArgumentException("The pDir (directory) argument is not a valid CSV file.");
             }
             
         }

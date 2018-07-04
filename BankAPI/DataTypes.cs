@@ -1418,4 +1418,20 @@ namespace BankAPI
             return MyString;
         }
     }
+
+    public class Transaction
+    {
+        public int Ammount { get; }
+        public Account FromAcc { get; }
+        public Account ToAcc { get; }
+        
+        public Transaction(int pAmmount, Account pFromAcc, Account pToAcc)
+        {
+            Ammount = pAmmount;
+            FromAcc = pFromAcc;
+            ToAcc = pToAcc;
+        }
+
+
+    }
 }
