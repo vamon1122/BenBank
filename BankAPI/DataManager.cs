@@ -111,7 +111,7 @@ namespace BankAPI
                                 TempGovernment = new Government(TempId, TempName);
                             }
                             
-                            DataStore._Governments.Add(TempGovernment);
+                            DataStore.Governments.Add(TempGovernment);
                         }
                     }
                     DefaultLog.Info("ALL Governments downloaded from database");
@@ -168,7 +168,7 @@ namespace BankAPI
                                 throw new Exception("The Business's owner has not already been loaded from the database. " +
                                     "All People *should* already have been loaded.");
                             }
-                            DataStore._Businesses.Add(new Business(TempId, TempGovernment, TempOwner, TempName));
+                            DataStore.Businesses.Add(new Business(TempId, TempGovernment, TempOwner, TempName));
                         }
                     }
                     DefaultLog.Info("Businesses downloaded (excluding banks which were already downloaded)");
@@ -210,9 +210,9 @@ namespace BankAPI
                                 throw new Exception("The Bank's Business has not already been loaded from the database. " +
                                     "All Businesses *should* already have been loaded.");
                             }
-                            DataStore._Banks.Add(new Bank(TempMyBusiness, TempSavingsInterestRate, TempLoanInterestRate));
+                            DataStore.Banks.Add(new Bank(TempMyBusiness, TempSavingsInterestRate, TempLoanInterestRate));
                             DefaultLog.Info("Removing Bank's Business from _Businesses");
-                            DataStore._Businesses.Remove(TempMyBusiness);
+                            DataStore.Businesses.Remove(TempMyBusiness);
                         }
                     }
                     DefaultLog.Info("ALL Banks downloaded from database");
@@ -291,7 +291,7 @@ namespace BankAPI
                                     "All People *should* already have been loaded.");
                             }
                             //                                                            
-                            DataStore._PersonalAccounts.Add(new PersonalAccount(TempPersonalAccountId, TempBank, TempOwner, TempBal,
+                            DataStore.PersonalAccounts.Add(new PersonalAccount(TempPersonalAccountId, TempBank, TempOwner, TempBal,
                                 TempIsActive));
                         } 
                     }
@@ -356,7 +356,7 @@ namespace BankAPI
                                     "All Businesses *should* already have been loaded.");
                             }
                             //                                                            
-                            DataStore._BusinessAccounts.Add(new BusinessAccount(TempBusinessAccountId, TempBank, TempBusiness, TempBal,
+                            DataStore.BusinessAccounts.Add(new BusinessAccount(TempBusinessAccountId, TempBank, TempBusiness, TempBal,
                                 TempIsActive));
                         }
                     }
@@ -379,7 +379,7 @@ namespace BankAPI
 
         public static bool UpdateDb()
         {
-
+            throw new NotImplementedException();
         }
     }
 

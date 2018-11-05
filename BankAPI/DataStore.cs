@@ -8,7 +8,6 @@ namespace BankAPI
 {
     static class DataStore
     {
-
         public static List<Person> People { get; }
 
         public static List<Government> Governments { get;  }
@@ -22,12 +21,12 @@ namespace BankAPI
             get
             {
                 List<Account> AllAccounts = new List<Account>();
-                foreach (PersonalAccount TempPersonalAccount in _PersonalAccounts)
+                foreach (PersonalAccount TempPersonalAccount in PersonalAccounts)
                 {
                     AllAccounts.Add(TempPersonalAccount);
                 }
 
-                foreach (BusinessAccount TempBusinessAccount in _BusinessAccounts)
+                foreach (BusinessAccount TempBusinessAccount in BusinessAccounts)
                 {
                     AllAccounts.Add(TempBusinessAccount);
                 }

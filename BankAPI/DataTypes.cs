@@ -204,14 +204,14 @@ namespace BankAPI
                     }
                 }
 
-                int BankIndex = DataManager.Banks.FindIndex(f => f.Id.ToString() == TempBankId.ToString());
+                int BankIndex = DataStore.Banks.FindIndex(f => f.Id.ToString() == TempBankId.ToString());
 
                 if (BankIndex >= 0)
                 {
                     DefaultLog.Info("The business account's bank has already been loaded from the database. " +
                         "Using this instance of bank." + MyInfo());
 
-                    _MyBank = DataManager.Banks[BankIndex];
+                    _MyBank = DataStore.Banks[BankIndex];
                 }
                 else
                 {
@@ -221,14 +221,14 @@ namespace BankAPI
                     _MyBank.DbSelect();
                 }
 
-                int BusinessIndex = DataManager.Businesses.FindIndex(f => f.Id.ToString() == TempBusinessId.ToString());
+                int BusinessIndex = DataStore.Businesses.FindIndex(f => f.Id.ToString() == TempBusinessId.ToString());
 
                 if (BusinessIndex >= 0)
                 {
                     DefaultLog.Info("The business account's business has already been loaded from the database. " +
                         "Using this instance of business.");
 
-                    _MyBusiness = DataManager.Businesses[BusinessIndex];
+                    _MyBusiness = DataStore.Businesses[BusinessIndex];
                 }
                 else
                 {
@@ -417,7 +417,7 @@ namespace BankAPI
                     }
                 }
 
-                int BankIndex = DataManager.Banks.FindIndex(f => f.Id.ToString() == TempBankId.ToString());
+                int BankIndex = DataStore.Banks.FindIndex(f => f.Id.ToString() == TempBankId.ToString());
 
 
                 if (BankIndex >= 0)
@@ -425,7 +425,7 @@ namespace BankAPI
                     DefaultLog.Info("The personal account's bank has already been loaded from the database. " +
                         "Using this instance of bank." + MyInfo());
 
-                    _MyBank = DataManager.Banks[BankIndex];
+                    _MyBank = DataStore.Banks[BankIndex];
                 }
                 else
                 {
@@ -435,14 +435,14 @@ namespace BankAPI
                     _MyBank.DbSelect();
                 }
 
-                int OwnerIndex = DataManager.People.FindIndex(f => f.Id.ToString() == TempOwnerId.ToString());
+                int OwnerIndex = DataStore.People.FindIndex(f => f.Id.ToString() == TempOwnerId.ToString());
 
                 if (OwnerIndex >= 0)
                 {
                     DefaultLog.Info("The personal account's owner has already been loaded from the database. " +
                         "Using this instance of owner." + MyInfo());
 
-                    _MyPerson = DataManager.People[OwnerIndex];
+                    _MyPerson = DataStore.People[OwnerIndex];
                 }
                 else
                 {
@@ -674,14 +674,14 @@ namespace BankAPI
                  */
                 }
 
-                int OwnerIndex = DataManager.People.FindIndex(f => f.Id.ToString() == TempOwnerId.ToString());
+                int OwnerIndex = DataStore.People.FindIndex(f => f.Id.ToString() == TempOwnerId.ToString());
 
                 if (OwnerIndex >= 0)
                 {
                     DefaultLog.Info("The bank's owner has already been loaded from the database. " +
                         "Using this instance of owner " + MyInfo());
 
-                    _Owner = DataManager.People[OwnerIndex];
+                    _Owner = DataStore.People[OwnerIndex];
                 }
                 else
                 {
@@ -691,14 +691,14 @@ namespace BankAPI
                     _Owner.DbSelect();
                 }
 
-                int GovernmentIndex = DataManager.Governments.FindIndex(f => f.Id.ToString() == TempGovernmentId.ToString());
+                int GovernmentIndex = DataStore.Governments.FindIndex(f => f.Id.ToString() == TempGovernmentId.ToString());
 
                 if (GovernmentIndex >= 0)
                 {
                     DefaultLog.Info("The bank's government has already been loaded from the database. " +
                         "Using this instance of government." + MyInfo());
 
-                    _MyGovernment = DataManager.Governments[GovernmentIndex];
+                    _MyGovernment = DataStore.Governments[GovernmentIndex];
                 }
                 else
                 {
@@ -1120,14 +1120,14 @@ namespace BankAPI
                 {
                     DefaultLog.Info("President Id found. Getting president " + MyInfo());
 
-                    int Index = DataManager.People.FindIndex(f => f.Id.ToString() == TempPresidentId.ToString());
+                    int Index = DataStore.People.FindIndex(f => f.Id.ToString() == TempPresidentId.ToString());
 
                     if (Index >= 0)
                     {
                         DefaultLog.Info("The government's president has already been loaded from the database. " +
                             "Using this instance of president " + MyInfo());
 
-                        _President = DataManager.People[Index];
+                        _President = DataStore.People[Index];
                     }
                     else
                     {
@@ -1343,13 +1343,13 @@ namespace BankAPI
                 else
                 {
                     DefaultLog.Info("Owner Id found. Getting owner." + MyInfo());
-                    int Index = DataManager.People.FindIndex(f => f.Id.ToString() == TempOwnerId.ToString());
+                    int Index = DataStore.People.FindIndex(f => f.Id.ToString() == TempOwnerId.ToString());
 
                     if (Index >= 0)
                     {
                         DefaultLog.Info("Owner has already been loaded from the database. " +
                             "Using this instance of owner " + MyInfo());
-                        _Owner = DataManager.People[Index];
+                        _Owner = DataStore.People[Index];
                     }
                     else
                     {
@@ -1367,14 +1367,14 @@ namespace BankAPI
                 else
                 {
                     DefaultLog.Info("Government Id found. Getting government " + MyInfo());
-                    int Index = DataManager.Governments.FindIndex(f => f.Id.ToString() == TempGovernmentId.ToString());
+                    int Index = DataStore.Governments.FindIndex(f => f.Id.ToString() == TempGovernmentId.ToString());
 
                     if (Index >= 0)
                     {
                         DefaultLog.Info("The businesses government has already been loaded from the database. " +
                             "Using this instance of government " + MyInfo());
 
-                        _Owner = DataManager.People[Index];
+                        _Owner = DataStore.People[Index];
                     }
                     else
                     {
