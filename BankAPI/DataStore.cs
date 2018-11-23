@@ -8,7 +8,6 @@ namespace BankAPI
 {
     static class DataStore
     {
-
         public static List<Person> People { get; }
 
         public static List<Government> Governments { get;  }
